@@ -33,3 +33,5 @@ class PeerInfo(BaseModel):
 
 class AnnounceResponse(BaseModel):
     peers: List[PeerInfo]
+    tracker_id: str
+    interval: int
