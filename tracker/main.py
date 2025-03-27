@@ -2,7 +2,9 @@ import json
 
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from . import models, schemas, crud, auth, database
+# from . import models, schemas, crud, auth, database
+from tracker import models, schemas, crud, auth, database
+
 
 from fastapi.security import OAuth2PasswordRequestForm
 
