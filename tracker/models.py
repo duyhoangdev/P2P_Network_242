@@ -5,6 +5,7 @@ import enum
 class PeerStatus(enum.Enum):
     SEEDING = "SEEDING"
     LEECHING = "LEECHING"
+    STOPPED = "STOPPED"
 
 class User(Base):
     __tablename__ = "users"
@@ -12,14 +13,25 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     password_hash = Column(String)
 
-class File(Base):
-    __tablename__ = "files"
+class Torrent(Base):
+    __tablename__ = "torrents"
     id = Column(Integer, primary_key=True, index=True)
     info_hash = Column(String, unique=True, index=True)
     name = Column(String)
-    size = Column(Integer)
+    total_size = Column(Integer)
     piece_length = Column(Integer)
-    piece_hashes = Column(String)  # JSON string chứa danh sách hash của các piece
+    # JSON string containing the hashes for each piece in the entire torrent
+    piece_hashes = Column(String)
+
+class File(Base):
+    __tablename__ = "files"
+    id = Column(Integer, primary_key=True, index=True)
+    # Link each file to a torrent
+    torrent_id = Column(Integer, ForeignKey("torrents.id"))
+    name = Column(String)
+    size = Column(Integer)
+    # Starting offset (in bytes) within the torrent's combined data stream
+    offset = Column(Integer)
 
 class Peer(Base):
     __tablename__ = "peers"
